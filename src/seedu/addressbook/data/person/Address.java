@@ -41,7 +41,7 @@ public class Address {
     public static final int ADDRESS_UNIT = 2;
     public static final int ADDRESS_POSTAL_CODE = 3;
 
-    public final String value;
+    // public final String value;
     /** [LO-ImplementClass] T3 Splitting address into several other classes */
     public final Block block;
     public final Street street;
@@ -60,7 +60,7 @@ public class Address {
         if (!isValidAddress(address)) {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
-        this.value = address;
+        // this.value = address;
         
         this.block = new Block(getBlock(address));
         this.street = new Street(getStreet(address));
@@ -94,19 +94,20 @@ public class Address {
 
     @Override
     public String toString() {
-        return value;
+        return block.value + "," + street.value + "," + unit.value + "," + postalCode.value;
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Address // instanceof handles nulls
-                && this.value.equals(((Address) other).value)); // state check
+                && toString().equals(((Address) other).toString()));
+                // && this.value.equals(((Address) other).value)); // state check
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return toString().hashCode();
     }
 
     public boolean isPrivate() {
