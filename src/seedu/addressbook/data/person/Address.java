@@ -7,12 +7,47 @@ import seedu.addressbook.data.exception.IllegalValueException;
  * Guarantees: immutable; is valid as declared in {@link #isValidAddress(String)}
  */
 public class Address {
-
+	private class Block {
+		public String value;
+		public Block(String value) {
+			this.value = value;
+		}
+	}
+	private class Street {
+		public String value;
+		public Street(String value) {
+			this.value = value;
+		}
+	}
+	private class Unit {
+		public String value;
+		public Unit(String value) {
+			this.value = value;
+		}
+	}
+	private class PostalCode {
+		public String value;
+		public PostalCode(String value) {
+			this.value = value;
+		}
+	}
+	
     public static final String EXAMPLE = "123, some street";
     public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
+    
+    public static final int ADDRESS_BLOCK = 0;
+    public static final int ADDRESS_STREET = 1;
+    public static final int ADDRESS_UNIT = 2;
+    public static final int ADDRESS_POSTAL_CODE = 3;
 
     public final String value;
+    /** [LO-ImplementClass] T3 Splitting address into several other classes */
+    public final Block block;
+    public final Street street;
+    public final Unit unit;
+    public final PostalCode postalCode;
+    
     private boolean isPrivate;
 
     /**
@@ -26,7 +61,29 @@ public class Address {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
         this.value = address;
+        
+        this.block = new Block(getBlock(address));
+        this.street = new Street(getStreet(address));
+        this.unit = new Unit(getUnit(address));
+        this.postalCode = new PostalCode(getPostalCode(address));
     }
+    public String getBlock(String address) {
+    	String[] splittedString = address.split(",");
+    	return splittedString[ADDRESS_BLOCK];
+    }
+    public String getStreet(String address) {
+    	String[] splittedString = address.split(",");
+    	return splittedString[ADDRESS_STREET];
+    }
+    public String getUnit(String address) {
+    	String[] splittedString = address.split(",");
+    	return splittedString[ADDRESS_UNIT];
+    }
+    public String getPostalCode(String address) {
+    	String[] splittedString = address.split(",");
+    	return splittedString[ADDRESS_POSTAL_CODE];
+    }
+    
 
     /**
      * Returns true if a given string is a valid person email.
