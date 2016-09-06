@@ -5,6 +5,8 @@ import static seedu.addressbook.common.Messages.*;
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.tag.Tagging;
+import seedu.addressbook.data.tag.TaggingList;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -99,6 +101,13 @@ public class TextUi {
                 MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE,
                 storageFileInfo,
                 DIVIDER);
+    }
+    
+    public void showTaggingsDuringSession(TaggingList taggings) {
+    	ArrayList<Tagging> allTaggings = taggings.getTaggings();
+    	for (Tagging t : allTaggings) {
+    		out.println(String.format("%s %s [%s]", t.getSignForTagging(), t.getName(), t.getTag().tagName));
+    	}
     }
 
     public void showGoodbyeMessage() {

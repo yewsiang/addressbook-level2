@@ -5,7 +5,10 @@ import seedu.addressbook.data.person.UniquePersonList.*;
 import seedu.addressbook.data.tag.UniqueTagList;
 import seedu.addressbook.data.tag.UniqueTagList.*;
 import seedu.addressbook.data.tag.Tag;
+import seedu.addressbook.data.tag.Tagging;
+import seedu.addressbook.data.tag.TaggingList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,6 +25,7 @@ public class AddressBook {
 
     private final UniquePersonList allPersons;
     private final UniqueTagList allTags; // can contain tags not attached to any person
+    private TaggingList taggings;
 
     /**
      * Creates an empty address book.
@@ -29,6 +33,7 @@ public class AddressBook {
     public AddressBook() {
         allPersons = new UniquePersonList();
         allTags = new UniqueTagList();
+        taggings = new TaggingList();
     }
 
     /**
@@ -44,6 +49,7 @@ public class AddressBook {
         for (Person p : allPersons) {
             syncTagsWithMasterList(p);
         }
+        this.taggings = new TaggingList();
     }
 
     /**
@@ -86,8 +92,9 @@ public class AddressBook {
      *
      * @throws DuplicateTagException if an equivalent tag already exists.
      */
-    public void addTag(Tag toAdd) throws DuplicateTagException {
+    public void addTag(Tag toAdd, String name) throws DuplicateTagException {
         allTags.add(toAdd);
+        taggings.addAddTagging(toAdd, name);
     }
 
     /**
@@ -118,8 +125,9 @@ public class AddressBook {
      *
      * @throws TagNotFoundException if no such Tag could be found.
      */
-    public void removeTag(Tag toRemove) throws TagNotFoundException {
+    public void removeTag(Tag toRemove, String name) throws TagNotFoundException {
         allTags.remove(toRemove);
+        taggings.addDeleteTagging(toRemove, name);
     }
 
     /**
@@ -128,6 +136,11 @@ public class AddressBook {
     public void clear() {
         allPersons.clear();
         allTags.clear();
+        taggings.clear();
+    }
+    
+    public TaggingList getTaggingList() {
+    	return taggings;
     }
 
     /**
