@@ -78,7 +78,17 @@ public class AddressBook {
      */
     public void addPerson(Person toAdd) throws DuplicatePersonException {
         syncTagsWithMasterList(toAdd);
+        // To test if getPrintableString works
+        // System.out.println("(Adding)" + getPrintableString(toAdd.getName(), toAdd.getPhone(), toAdd.getEmail(), toAdd.getAddress()));
         allPersons.add(toAdd);
+    }
+    
+    public String getPrintableString(Printable... printables) {
+    	String output = "";
+    	for (Printable p : printables) {
+    		output += p.getPrintableString();
+    	}
+    	return output;
     }
 
     /**
